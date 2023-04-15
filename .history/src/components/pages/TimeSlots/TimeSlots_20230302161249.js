@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import HOC from "../../layout/HOC";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
+
+
 const TimeSlots = () => {
   const [ data , setData ] = useState([])
 const token = localStorage.getItem("token")

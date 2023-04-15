@@ -64,7 +64,7 @@ const Login = () => {
                 name="password"
                 required
                 className="outline-none px-0.5  bg-transparent tracking-wider w-full"
-                onChange={(e) => setPas(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
               />
 
               <span
