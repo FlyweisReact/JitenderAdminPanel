@@ -15,7 +15,7 @@ const Ban = () => {
   const fetchData = async () => {
     try {
       const { data } = await axios.get(
-        "http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/banner/all"
+        "https://mr-jitender-backend.vercel.app/api/v1/banner/all"
       );
       setData(data);
     } catch (e) {
@@ -30,7 +30,7 @@ const Ban = () => {
   const deleteData = async (id) => {
     try {
       const { data } = await axios.delete(
-        `http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/banner/delete/${id}`
+        `https://mr-jitender-backend.vercel.app/api/v1/banner/delete/${id}`
       );
       toast.success(data.message);
       fetchData();
@@ -67,7 +67,7 @@ const Ban = () => {
       e.preventDefault();
       try {
         const { data } = await axios.post(
-          "http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/banner/add",
+          "https://mr-jitender-backend.vercel.app/api/v1/banner/add",
           { image: imageUrl, desc }
         );
         console.log(data);

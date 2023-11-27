@@ -17,7 +17,7 @@ const SubAdmin = () => {
   const fetchData = async () => {
     try {
       const { data } = await axios.get(
-        "http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/subadmin"
+        "https://mr-jitender-backend.vercel.app/api/v1/subadmin"
       );
       setData(data);
     } catch (e) {
@@ -29,9 +29,8 @@ const SubAdmin = () => {
     fetchData();
   }, []);
 
-  
   const token = localStorage.getItem("token");
-  
+
   function MyVerticallyCenteredModal(props) {
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
@@ -41,7 +40,7 @@ const SubAdmin = () => {
       e.preventDefault();
       try {
         const { data } = await axios.post(
-          "http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/register",
+          "https://mr-jitender-backend.vercel.app/api/v1/register",
           {
             name,
             phone,
@@ -71,18 +70,30 @@ const SubAdmin = () => {
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={postData}>
-          <Form.Group className='mb-3'>
-            <Form.Label > Name </Form.Label>
-            <Form.Control type='text' onChange={(e) => setName(e.target.value)} minLength={4} />
-          </Form.Group>
-          <Form.Group className='mb-3'>
-            <Form.Label > Phone Number </Form.Label>
-            <Form.Control type="tel" pattern="[0-9]{10}" onChange={(e) => setPhone(e.target.value)} />
-          </Form.Group>
-          <Form.Group className='mb-3'>
-            <Form.Label > Password </Form.Label>
-            <Form.Control type='password' onChange={(e) => setPassword(e.target.value)} minLength={8} />
-          </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label> Name </Form.Label>
+              <Form.Control
+                type="text"
+                onChange={(e) => setName(e.target.value)}
+                minLength={4}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label> Phone Number </Form.Label>
+              <Form.Control
+                type="tel"
+                pattern="[0-9]{10}"
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label> Password </Form.Label>
+              <Form.Control
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
+                minLength={8}
+              />
+            </Form.Group>
             <Button variant="outline-success" type="submit">
               Submit
             </Button>
@@ -95,7 +106,7 @@ const SubAdmin = () => {
   const deleteData = async (id) => {
     try {
       const { data } = await axios.delete(
-        `http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/admin/user/${id}`,
+        `https://mr-jitender-backend.vercel.app/api/v1/admin/user/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

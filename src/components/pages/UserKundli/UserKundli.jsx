@@ -17,7 +17,7 @@ const UserKundli = () => {
   const fetchData = async () => {
     try {
       const { data } = await axios.get(
-        "http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1//catogory/getAllCategory"
+        "https://mr-jitender-backend.vercel.app/api/v1//catogory/getAllCategory"
       );
       setData(data);
     } catch (e) {
@@ -57,7 +57,7 @@ const UserKundli = () => {
       e.preventDefault();
       try {
         const { data } = await axios.post(
-          "http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/admin/category/new",
+          "https://mr-jitender-backend.vercel.app/api/v1/admin/category/new",
           { image: imageUrl, name: desc }
         );
         console.log(data);
@@ -119,7 +119,7 @@ const UserKundli = () => {
   const deleteData = async (id) => {
     try {
       const { data } = await axios.delete(
-        `http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/admin/delete/cat/${id}`
+        `https://mr-jitender-backend.vercel.app/api/v1/admin/delete/cat/${id}`
       );
       console.log(data);
       fetchData();

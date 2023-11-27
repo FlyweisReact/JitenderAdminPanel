@@ -9,12 +9,12 @@ import { useNavigate } from "react-router-dom";
 const DeliveryPartner = () => {
   const [data, setData] = useState([]);
   const [id, setId] = useState("");
-  const [ modalShow , setModalShow ] = useState(false)
-  const navigate = useNavigate()
+  const [modalShow, setModalShow] = useState(false);
+  const navigate = useNavigate();
   const fetchData = async () => {
     try {
       const { data } = await axios.get(
-        "http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/driver/alldriver"
+        "https://mr-jitender-backend.vercel.app/api/v1/driver/alldriver"
       );
       setData(data);
     } catch (e) {
@@ -29,7 +29,7 @@ const DeliveryPartner = () => {
   const deleteHandler = async (id) => {
     try {
       const { data } = await axios.delete(
-        `http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/driver/${id}`
+        `https://mr-jitender-backend.vercel.app/api/v1/driver/${id}`
       );
       console.log(data);
       alert("Deleted");
@@ -46,7 +46,7 @@ const DeliveryPartner = () => {
       e.preventDefault();
       try {
         const { data } = await axios.post(
-          `http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/driver/status/${id}`,
+          `https://mr-jitender-backend.vercel.app/api/v1/driver/status/${id}`,
           {
             status,
           }
@@ -96,8 +96,10 @@ const DeliveryPartner = () => {
 
   return (
     <>
-    <MyVerticallyCenteredModal show={modalShow} onHide={() => setModalShow(false) } />
-
+      <MyVerticallyCenteredModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
 
       <section>
         <div className="pb-4 sticky top-0  w-full flex justify-between items-center bg-white">
@@ -128,24 +130,26 @@ const DeliveryPartner = () => {
                   <td> {i.email} </td>
                   <td> {i.status} </td>
                   <td>
-                    <Button onClick={() => navigate(`/deliveryOrder/${i._id}`)}>View</Button>
+                    <Button onClick={() => navigate(`/deliveryOrder/${i._id}`)}>
+                      View
+                    </Button>
                   </td>
                   <td>
-                  <span className="d-flex gap-2" >
-                  <i
-                      className="fa-solid fa-trash"
-                      onClick={() => deleteHandler(i._id)}
-                      style={{ color: "red", cursor: "pointer" }}
-                    />
-                    <i
-                      className="fa-solid fa-edit"
-                      onClick={() => {
-                        setId(i._id)
-                        setModalShow(true)}}
-                      style={{ color: "blue", cursor: "pointer" }}
-                    />
-                  </span>
-                  
+                    <span className="d-flex gap-2">
+                      <i
+                        className="fa-solid fa-trash"
+                        onClick={() => deleteHandler(i._id)}
+                        style={{ color: "red", cursor: "pointer" }}
+                      />
+                      <i
+                        className="fa-solid fa-edit"
+                        onClick={() => {
+                          setId(i._id);
+                          setModalShow(true);
+                        }}
+                        style={{ color: "blue", cursor: "pointer" }}
+                      />
+                    </span>
                   </td>
                 </tr>
               ))}

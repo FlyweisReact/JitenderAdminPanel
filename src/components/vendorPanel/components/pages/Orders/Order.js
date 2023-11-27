@@ -15,7 +15,7 @@ const Order = () => {
   const fetchData = async () => {
     try {
       const { data } = await axios.get(
-        "http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/admin/orders",
+        "https://mr-jitender-backend.vercel.app/api/v1/admin/orders",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -35,7 +35,7 @@ const Order = () => {
   const postHandler = async (id) => {
     try {
       const { data } = await axios.post(
-        `http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/user/paymentstatus/${id}`
+        `https://mr-jitender-backend.vercel.app/api/v1/user/paymentstatus/${id}`
       );
       console.log(data);
       fetchData();
@@ -51,7 +51,7 @@ const Order = () => {
     const fetchD = async () => {
       try {
         const { data } = await axios.get(
-          "http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/driver/alldriver"
+          "https://mr-jitender-backend.vercel.app/api/v1/driver/alldriver"
         );
         setDriver(data.message);
       } catch (E) {
@@ -66,10 +66,10 @@ const Order = () => {
     }, [props.show]);
 
     const assingOrder = async (e) => {
-      e.preventDefault()
+      e.preventDefault();
       try {
         const { data } = await axios.post(
-          "http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/driver/addOrder ",
+          "https://mr-jitender-backend.vercel.app/api/v1/driver/addOrder ",
           {
             orderId,
             driverId,
@@ -110,7 +110,7 @@ const Order = () => {
                 </option>
               ))}
             </Form.Select>
-            <Button type="submit" > Submit</Button>
+            <Button type="submit"> Submit</Button>
           </Form>
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
@@ -120,7 +120,10 @@ const Order = () => {
 
   return (
     <>
-    <MyVerticallyCenteredModal show={modalShow} onHide={() => setModalShow(false)} />
+      <MyVerticallyCenteredModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
       <section>
         <div className="pb-4 sticky top-0  w-full flex justify-between items-center bg-white">
           <span className="tracking-widest text-slate-900 font-semibold uppercase ">
@@ -158,20 +161,23 @@ const Order = () => {
                   <td>{i.paymentStatus} </td>
                   <td>{i.delivered === true ? "Yes" : "No"} </td>
                   <td>
-                  <span className="d-flex gap-2">
-                  <i
-                      className="fa-solid fa-file-pen"
-                      style={{ color: "blue", cursor: "pointer" }}
-                      onClick={() => {
-                        postHandler(i.user?._id);
-                      }}
-                    ></i>
-                    <Button onClick={() => {
-                      setOrderId(i._id)
-                      setModalShow(true)
-                    }}>Assign Order</Button>
-                  </span>
-                 
+                    <span className="d-flex gap-2">
+                      <i
+                        className="fa-solid fa-file-pen"
+                        style={{ color: "blue", cursor: "pointer" }}
+                        onClick={() => {
+                          postHandler(i.user?._id);
+                        }}
+                      ></i>
+                      <Button
+                        onClick={() => {
+                          setOrderId(i._id);
+                          setModalShow(true);
+                        }}
+                      >
+                        Assign Order
+                      </Button>
+                    </span>
                   </td>
                 </tr>
               ))}

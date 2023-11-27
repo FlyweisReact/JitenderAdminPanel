@@ -14,7 +14,7 @@ const Users = () => {
   const fetchData = useCallback(async () => {
     try {
       const { data } = await axios.get(
-        "http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/admin/users",
+        "https://mr-jitender-backend.vercel.app/api/v1/admin/users",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -34,7 +34,7 @@ const Users = () => {
   const deleteData = async (id) => {
     try {
       const { data } = await axios.delete(
-        `http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/admin/user/${id}`,
+        `https://mr-jitender-backend.vercel.app/api/v1/admin/user/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

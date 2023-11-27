@@ -18,7 +18,7 @@ const Privacy = () => {
   const fetchData = async () => {
     try {
       const { data } = await axios.get(
-        "http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/privacy"
+        "https://mr-jitender-backend.vercel.app/api/v1/privacy"
       );
       setData(data);
     } catch (e) {
@@ -37,7 +37,7 @@ const Privacy = () => {
       e.preventDefault();
       try {
         const { data } = await axios.put(
-          "http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/privacy/6400a15212654ffc42a59f6b",
+          "https://mr-jitender-backend.vercel.app/api/v1/privacy/6400a15212654ffc42a59f6b",
           { privacy: couponCode }
         );
         console.log(data);

@@ -18,7 +18,7 @@ const Coupon = () => {
   const fetchData = async () => {
     try {
       const { data } = await axios.get(
-        "http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/coupon/all",
+        "https://mr-jitender-backend.vercel.app/api/v1/coupon/all",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -46,7 +46,7 @@ const Coupon = () => {
       e.preventDefault();
       try {
         const { data } = await axios.post(
-          "http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/coupon",
+          "https://mr-jitender-backend.vercel.app/api/v1/coupon",
           { couponCode, activationDate, expirationDate, discount, minOrder },
           {
             headers: {
@@ -129,7 +129,7 @@ const Coupon = () => {
   const deleteData = async (id) => {
     try {
       const { data } = await axios.delete(
-        `http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/coupon/${id}`,
+        `https://mr-jitender-backend.vercel.app/api/v1/coupon/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

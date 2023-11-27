@@ -12,7 +12,7 @@ const Complaint = () => {
   const fetchData = async () => {
     try {
       const { data } = await axios.get(
-        "http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/help"
+        "https://mr-jitender-backend.vercel.app/api/v1/help"
       );
       setData(data);
     } catch (e) {

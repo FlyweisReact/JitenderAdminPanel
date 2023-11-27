@@ -17,7 +17,7 @@ const MSG = () => {
   const fetchData = async () => {
     try {
       const { data } = await axios.get(
-        "http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/notify"
+        "https://mr-jitender-backend.vercel.app/api/v1/notify"
       );
       setData(data);
     } catch (err) {
@@ -32,7 +32,7 @@ const MSG = () => {
   const deleteData = async (id) => {
     try {
       const { data } = await axios.delete(
-        `http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/notify/delete/${id}`
+        `https://mr-jitender-backend.vercel.app/api/v1/notify/delete/${id}`
       );
       console.log(data);
       toast.success("Notification Deleted");
@@ -49,7 +49,7 @@ const MSG = () => {
       e.preventDefault();
       try {
         const { data } = await axios.post(
-          "http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/notify",
+          "https://mr-jitender-backend.vercel.app/api/v1/notify",
           { message }
         );
         console.log(data);

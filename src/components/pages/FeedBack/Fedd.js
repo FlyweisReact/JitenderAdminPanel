@@ -39,7 +39,7 @@ const Fedd = () => {
     const fetchCategory = async () => {
       try {
         const { data } = await axios.get(
-          "http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1//catogory/getAllCategory"
+          "https://mr-jitender-backend.vercel.app/api/v1//catogory/getAllCategory"
         );
         setP(data);
       } catch (e) {
@@ -80,7 +80,7 @@ const Fedd = () => {
 
       try {
         const { data } = await axios.post(
-          "http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/admin/product/new",
+          "https://mr-jitender-backend.vercel.app/api/v1/admin/product/new",
           fd
         );
         console.log(data);
@@ -199,7 +199,7 @@ const Fedd = () => {
   const fetchData = async () => {
     try {
       const { data } = await axios.get(
-        "http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/products"
+        "https://mr-jitender-backend.vercel.app/api/v1/products"
       );
       setData(data);
     } catch (e) {
@@ -210,7 +210,7 @@ const Fedd = () => {
   const deleteData = async (id) => {
     try {
       const { data } = await axios.delete(
-        `http://ec2-65-1-248-95.ap-south-1.compute.amazonaws.com:5004/api/v1/admin/product/${id}`,
+        `https://mr-jitender-backend.vercel.app/api/v1/admin/product/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
