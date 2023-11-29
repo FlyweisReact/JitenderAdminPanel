@@ -1,7 +1,9 @@
 /** @format */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import HOC from "../../layout/HOC";
 import Table from "react-bootstrap/Table";
+import OwlCarousel from "react-owl-carousel2";
+import "react-owl-carousel2/lib/styles.css";
 import { Button, FloatingLabel, Form, Modal } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -11,6 +13,25 @@ const Product = () => {
   const [data, setData] = useState([]);
   const token = localStorage.getItem("token");
 
+  // Owl Carousel
+  const carouselRef = useRef(null);
+  const options = {
+    items: 1,
+    nav: false,
+    rewind: true,
+    autoplay: true,
+    autoplayTimeout: 5000,
+    autoplayHoverPause: true,
+    onInitialized: () => {
+      const carousel = carouselRef.current;
+      const items = carousel.querySelectorAll(".owl-item");
+      const containerWidth = carousel.clientWidth;
+
+      items.forEach((item) => {
+        item.style.width = `${containerWidth}px`;
+      });
+    },
+  };
   //Modal
   function MyVerticallyCenteredModal(props) {
     const [categoryP, setP] = useState([]);
@@ -294,11 +315,7 @@ const Product = () => {
               {data?.products?.map((i, index) => (
                 <tr key={index}>
                   <td>
-                    <img
-                      src={i.images?.[0]?.img}
-                      style={{ width: "120px" }}
-                      alt=""
-                    />
+                    <img src={i.images?.[0]?.img} style={{width : '120px'}} alt=""  />
                   </td>
                   <td>{i.name} </td>
                   <td>{i.description}</td>

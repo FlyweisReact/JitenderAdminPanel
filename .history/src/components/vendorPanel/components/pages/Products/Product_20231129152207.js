@@ -1,7 +1,8 @@
 /** @format */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import HOC from "../../layout/HOC";
 import Table from "react-bootstrap/Table";
+import "react-owl-carousel2/lib/styles.css";
 import { Button, FloatingLabel, Form, Modal } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";

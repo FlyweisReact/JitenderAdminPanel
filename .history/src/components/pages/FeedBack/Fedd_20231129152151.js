@@ -1,16 +1,37 @@
 /** @format */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import HOC from "../../layout/HOC";
 import Table from "react-bootstrap/Table";
+import OwlCarousel from "react-owl-carousel2";
+import "react-owl-carousel2/lib/styles.css";
 import { Button, FloatingLabel, Form, Modal } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const Product = () => {
+const Fedd = () => {
   const [modalShow, setModalShow] = React.useState(false);
   const [data, setData] = useState([]);
   const token = localStorage.getItem("token");
 
+  // Owl Carousel
+  const carouselRef = useRef(null);
+  const options = {
+    items: 1,
+    nav: false,
+    rewind: true,
+    autoplay: true,
+    autoplayTimeout: 5000,
+    autoplayHoverPause: true,
+    onInitialized: () => {
+      const carousel = carouselRef.current;
+      const items = carousel.querySelectorAll(".owl-item");
+      const containerWidth = carousel.clientWidth;
+
+      items.forEach((item) => {
+        item.style.width = `${containerWidth}px`;
+      });
+    },
+  };
   //Modal
   function MyVerticallyCenteredModal(props) {
     const [categoryP, setP] = useState([]);
@@ -18,7 +39,7 @@ const Product = () => {
     const fetchCategory = async () => {
       try {
         const { data } = await axios.get(
-          "https://mr-jitender-backend.vercel.app/api/v1/catogory/getAllCategory"
+          "https://mr-jitender-backend.vercel.app/api/v1//catogory/getAllCategory"
         );
         setP(data);
       } catch (e) {
@@ -41,24 +62,6 @@ const Product = () => {
     const [Stock, setStock] = useState("");
     const [category, setCategory] = useState("");
     const [image, setImage] = useState("");
-    const [sizeContainer, setSizeContainer] = useState([]);
-
-    const query_adder = () => {
-      setSizeContainer((prev) => [...prev, size]);
-      setSize("");
-    };
-
-    const query_remover = (index) => {
-      setSizeContainer((prev) => prev.filter((_, i) => i !== index));
-    };
-
-    const token = localStorage.getItem("token");
-
-    const auth = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
 
     const postData = async (e) => {
       e.preventDefault();
@@ -67,22 +70,20 @@ const Product = () => {
       fd.append("description", description);
       fd.append("price", price);
       fd.append("ratings", ratings);
+      fd.append("size", size);
       fd.append("colors", colors);
       fd.append("Stock", Stock);
       fd.append("category", category);
-      Array.from(sizeContainer).forEach((img, index) => {
-        fd.append(`size`, img);
-      });
       Array.from(image).forEach((img) => {
         fd.append("image", img);
       });
 
       try {
         const { data } = await axios.post(
-          "https://mr-jitender-backend.vercel.app/api/v1/vender/product/new",
-          fd,
-          auth
+          "https://mr-jitender-backend.vercel.app/api/v1/admin/product/new",
+          fd
         );
+        console.log(data);
         props.onHide();
         fetchData();
         alert("Product Added");
@@ -141,42 +142,13 @@ const Product = () => {
                 onChange={(e) => setPrice(e.target.value)}
               />
             </Form.Group>
-
             <Form.Group className="mb-3">
-              <Form.Label>Size</Form.Label>
+              <Form.Label>Size Available</Form.Label>
               <Form.Control
                 type="text"
-                className="mb-3"
-                value={size}
                 onChange={(e) => setSize(e.target.value)}
               />
-
-              <Button variant="dark" onClick={() => query_adder()}>
-                Add
-              </Button>
             </Form.Group>
-
-            {sizeContainer?.map((i, index) => (
-              <ul
-                className="mt-2"
-                style={{
-                  border: "1px solid #000",
-                  paddingTop: "10px",
-                  paddingBottom: "20px",
-                }}
-              >
-                <li style={{ listStyle: "disc" }} className="mt-1">
-                  {i}
-                </li>
-
-                <li className="mt-3">
-                  <Button onClick={() => query_remover(index)}>
-                    Remove This One
-                  </Button>
-                </li>
-              </ul>
-            ))}
-
             <Form.Group className="mb-3">
               <Form.Label>Category</Form.Label>
               <Form.Select
@@ -294,23 +266,12 @@ const Product = () => {
               {data?.products?.map((i, index) => (
                 <tr key={index}>
                   <td>
-                    <img
-                      src={i.images?.[0]?.img}
-                      style={{ width: "120px" }}
-                      alt=""
-                    />
+                   
                   </td>
                   <td>{i.name} </td>
                   <td>{i.description}</td>
                   <td>₹{i.price}</td>
-                  <td>
-                    {" "}
-                    <ul style={{ listStyle: "disc" }}>
-                      {i.size?.map((item) => (
-                        <li key={`Item${item.size}`}> {item.size} </li>
-                      ))}
-                    </ul>{" "}
-                  </td>
+                  <td> {i.size} </td>
                   <td>{i.ratings}</td>
                   <td>{i.category?.name} </td>
                   <td>{i.Stock} </td>
@@ -335,4 +296,6 @@ const Product = () => {
   );
 };
 
-export default HOC(Product);
+export default HOC(Fedd);
+
+//viewProduct
