@@ -17,7 +17,7 @@ const MSG = () => {
   const fetchData = async () => {
     try {
       const { data } = await axios.get(
-        "https://mr-jitender-backend.vercel.app/api/v1/notify/notification/all"
+        "https://mr-jitender-backend.vercel.app/api/v1/notify"
       );
       setData(data);
     } catch (err) {

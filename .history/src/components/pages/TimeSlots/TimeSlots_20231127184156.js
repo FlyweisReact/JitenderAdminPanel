@@ -54,7 +54,7 @@ const TimeSlots = () => {
               </tr>
             </thead>
             <tbody>
-              {data?.data?.map((i, index) => (
+              {data?.orders?.map((i, index) => (
                 <tr key={index}>
                   <td>{i.user?.name} </td>
                   <td>{i.user?.phone} </td>

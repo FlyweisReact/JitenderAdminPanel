@@ -1,27 +1,27 @@
 /** @format */
-import React, { useEffect, useState } from "react";
-import Button from "react-bootstrap/Button";
-import { toast } from "react-toastify";
+import React, { useEffect } from "react";
+import { AiFillDelete } from "react-icons/ai";
 import HOC from "../../layout/HOC";
 import Table from "react-bootstrap/Table";
+import { Button, Form } from "react-bootstrap";
+import { toast } from "react-toastify";
 import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
-import { FloatingLabel } from "react-bootstrap";
-import { AiFillDelete } from "react-icons/ai";
+import { useState } from "react";
 import axios from "axios";
 
-const MSG = () => {
+const Category = () => {
   const [modalShow, setModalShow] = React.useState(false);
+  const [edit, setEdit] = useState(false);
   const [data, setData] = useState([]);
 
   const fetchData = async () => {
     try {
       const { data } = await axios.get(
-        "https://mr-jitender-backend.vercel.app/api/v1/notify/notification/all"
+        "https://mr-jitender-backend.vercel.app/api/v1/catogory/getAllCategory"
       );
       setData(data);
-    } catch (err) {
-      console.log(err);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -29,38 +29,29 @@ const MSG = () => {
     fetchData();
   }, []);
 
-  const deleteData = async (id) => {
-    try {
-      const { data } = await axios.delete(
-        `https://mr-jitender-backend.vercel.app/api/v1/notify/delete/${id}`
-      );
-      console.log(data);
-      toast.success("Notification Deleted");
-      fetchData();
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   function MyVerticallyCenteredModal(props) {
-    const [message, setM] = useState("");
+    const [image, setImage] = useState("");
+    const [desc, setDesc] = useState("");
+
+    
+
+
 
     const postData = async (e) => {
       e.preventDefault();
       try {
         const { data } = await axios.post(
-          "https://mr-jitender-backend.vercel.app/api/v1/notify",
-          { message }
+          "https://mr-jitender-backend.vercel.app/api/v1/admin/category/new",
+          { image , name: desc }
         );
         console.log(data);
-        props.onHide();
-        toast.success("Notification Added");
         fetchData();
+        props.onHide();
+        toast.success("Category Added");
       } catch (e) {
         console.log(e);
       }
     };
-
     return (
       <Modal
         {...props}
@@ -70,19 +61,34 @@ const MSG = () => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Add Notification
+            {edit ? "Edit Category" : "Add Category"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={postData}>
-            <Form.Group className="mb-3">
-              <FloatingLabel controlId="floatingTextarea2" label="Notification">
-                <Form.Control
-                  as="textarea"
-                  placeholder="Leave a comment here"
-                  onChange={(e) => setM(e.target.value)}
-                />
-              </FloatingLabel>
+          <Form
+            style={{
+              color: "black",
+              margin: "auto",
+            }}
+            onSubmit={postData}
+          >
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Image</Form.Label>
+              <Form.Control
+                type="file"
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Banner"
+                required
+                onChange={(e) => setDesc(e.target.value)}
+                onClick={() => postthumbImage()}
+              />
             </Form.Group>
 
             <Button variant="outline-success" type="submit">
@@ -94,45 +100,63 @@ const MSG = () => {
     );
   }
 
+  const deleteData = async (id) => {
+    try {
+      const { data } = await axios.delete(
+        `https://mr-jitender-backend.vercel.app/api/v1/admin/delete/cat/${id}`
+      );
+      console.log(data);
+      fetchData();
+      toast.success("Category Deleted");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <>
       <MyVerticallyCenteredModal
         show={modalShow}
         onHide={() => setModalShow(false)}
       />
-
       <section>
         <div className="pb-4 sticky top-0  w-full flex justify-between items-center bg-white">
           <span className="tracking-widest text-slate-900 font-semibold uppercase ">
-            All Notification
+            All Categories
           </span>
           <Button
             variant="outline-success"
             onClick={() => {
+              setEdit(false);
               setModalShow(true);
             }}
           >
-            Add Notification
+            Add Category
           </Button>
         </div>
-        {/* Add Form */}
 
         <div style={{ maxWidth: "100%", overflow: "auto" }}>
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Notification</th>
-                <th>Date</th>
+                <th>Category Image</th>
+                <th>Category Name</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {data?.message?.map((i, index) => (
+              {data?.categories?.map((i, index) => (
                 <tr key={index}>
-                  <td>{i.message}</td>
-                  <td> {i.createdAt.slice(0, 10)} </td>
                   <td>
-                    <div style={{ display: "flex", gap: "10px" }}>
+                    <img
+                      src={i.image}
+                      alt="CategoryImage"
+                      style={{ width: "100px" }}
+                    />
+                  </td>
+                  <td> {i.name} </td>
+                  <td>
+                    <div style={{ display: "flex" }}>
                       <AiFillDelete
                         color="red"
                         cursor={"pointer"}
@@ -150,4 +174,4 @@ const MSG = () => {
   );
 };
 
-export default HOC(MSG);
+export default HOC(Category);

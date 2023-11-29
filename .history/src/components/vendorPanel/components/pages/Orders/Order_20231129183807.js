@@ -22,7 +22,7 @@ const Order = () => {
           },
         }
       );
-      setData(data);
+      setData(data.data);
     } catch (e) {
       console.log(e);
     }

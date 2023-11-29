@@ -31,22 +31,22 @@ const Category = () => {
 
   function MyVerticallyCenteredModal(props) {
     const [image, setImage] = useState("");
+    const [imageUrl, setImageUrl] = useState("");
     const [desc, setDesc] = useState("");
 
-    const fd = new FormData();
-    fd.append("image", image);
-    fd.append("name", desc);
+
 
     const postData = async (e) => {
       e.preventDefault();
       try {
         const { data } = await axios.post(
           "https://mr-jitender-backend.vercel.app/api/v1/admin/category/new",
-          fd
+          { image , name: desc }
         );
-        toast.success("Category Added");
+        console.log(data);
         fetchData();
         props.onHide();
+        toast.success("Category Added");
       } catch (e) {
         console.log(e);
       }
@@ -86,6 +86,7 @@ const Category = () => {
                 placeholder="Banner"
                 required
                 onChange={(e) => setDesc(e.target.value)}
+                onClick={() => postthumbImage()}
               />
             </Form.Group>
 

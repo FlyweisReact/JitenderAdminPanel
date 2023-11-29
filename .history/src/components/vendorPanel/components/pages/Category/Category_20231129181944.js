@@ -44,6 +44,7 @@ const Category = () => {
           "https://mr-jitender-backend.vercel.app/api/v1/admin/category/new",
           fd
         );
+
         toast.success("Category Added");
         fetchData();
         props.onHide();
@@ -86,6 +87,7 @@ const Category = () => {
                 placeholder="Banner"
                 required
                 onChange={(e) => setDesc(e.target.value)}
+                onClick={() => postthumbImage()}
               />
             </Form.Group>
 

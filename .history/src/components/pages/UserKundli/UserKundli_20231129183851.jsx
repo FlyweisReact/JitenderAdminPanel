@@ -9,7 +9,7 @@ import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
 import axios from "axios";
 
-const Category = () => {
+const UserKundli = () => {
   const [modalShow, setModalShow] = React.useState(false);
   const [edit, setEdit] = useState(false);
   const [data, setData] = useState([]);
@@ -31,22 +31,39 @@ const Category = () => {
 
   function MyVerticallyCenteredModal(props) {
     const [image, setImage] = useState("");
+    const [imageUrl, setImageUrl] = useState("");
     const [desc, setDesc] = useState("");
 
-    const fd = new FormData();
-    fd.append("image", image);
-    fd.append("name", desc);
+    const postthumbImage = (e) => {
+      const data = new FormData();
+      data.append("file", image);
+      data.append("upload_preset", "ml_default");
+      data.append("cloud_name", "dbcnha741");
+      fetch("https://api.cloudinary.com/v1_1/dbcnha741/image/upload", {
+        method: "post",
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setImageUrl(data.url);
+          console.log(data.url);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
 
     const postData = async (e) => {
       e.preventDefault();
       try {
         const { data } = await axios.post(
           "https://mr-jitender-backend.vercel.app/api/v1/admin/category/new",
-          fd
+          { image: imageUrl, name: desc }
         );
-        toast.success("Category Added");
+        console.log(data);
         fetchData();
         props.onHide();
+        toast.success("Category Added");
       } catch (e) {
         console.log(e);
       }
@@ -86,6 +103,7 @@ const Category = () => {
                 placeholder="Banner"
                 required
                 onChange={(e) => setDesc(e.target.value)}
+                onClick={() => postthumbImage()}
               />
             </Form.Group>
 
@@ -172,4 +190,4 @@ const Category = () => {
   );
 };
 
-export default HOC(Category);
+export default HOC(UserKundli);

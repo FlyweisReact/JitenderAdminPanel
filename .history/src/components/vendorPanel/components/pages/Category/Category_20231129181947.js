@@ -86,6 +86,7 @@ const Category = () => {
                 placeholder="Banner"
                 required
                 onChange={(e) => setDesc(e.target.value)}
+                onClick={() => postthumbImage()}
               />
             </Form.Group>
 

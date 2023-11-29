@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 const Fedd = () => {
   const [modalShow, setModalShow] = React.useState(false);
   const [data, setData] = useState([]);
-  const token = localStorage.getItem("VendorToken");
+  const token = localStorage.getItem("token");
 
   //Modal
   function MyVerticallyCenteredModal(props) {
@@ -52,7 +52,7 @@ const Fedd = () => {
       setSizeContainer((prev) => prev.filter((_, i) => i !== index));
     };
 
-    const token = localStorage.getItem("VendorToken");
+    const token = localStorage.getItem("token");
 
     const auth = {
       headers: {
@@ -79,9 +79,8 @@ const Fedd = () => {
 
       try {
         const { data } = await axios.post(
-          "https://mr-jitender-backend.vercel.app/api/v1/vender/product/new",
-          fd,
-          auth
+          "https://mr-jitender-backend.vercel.app/api/v1/admin/product/new",
+          fd
         );
         console.log(data);
         props.onHide();

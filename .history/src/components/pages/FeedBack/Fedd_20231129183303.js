@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 const Fedd = () => {
   const [modalShow, setModalShow] = React.useState(false);
   const [data, setData] = useState([]);
-  const token = localStorage.getItem("VendorToken");
+  const token = localStorage.getItem("token");
 
   //Modal
   function MyVerticallyCenteredModal(props) {
@@ -20,7 +20,7 @@ const Fedd = () => {
         const { data } = await axios.get(
           "https://mr-jitender-backend.vercel.app/api/v1/catogory/getAllCategory"
         );
-        setP(data);
+        setP(data?.products);
       } catch (e) {
         console.log(e);
       }
@@ -41,24 +41,6 @@ const Fedd = () => {
     const [Stock, setStock] = useState("");
     const [category, setCategory] = useState("");
     const [image, setImage] = useState("");
-    const [sizeContainer, setSizeContainer] = useState([]);
-
-    const query_adder = () => {
-      setSizeContainer((prev) => [...prev, size]);
-      setSize("");
-    };
-
-    const query_remover = (index) => {
-      setSizeContainer((prev) => prev.filter((_, i) => i !== index));
-    };
-
-    const token = localStorage.getItem("VendorToken");
-
-    const auth = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
 
     const postData = async (e) => {
       e.preventDefault();
@@ -67,21 +49,18 @@ const Fedd = () => {
       fd.append("description", description);
       fd.append("price", price);
       fd.append("ratings", ratings);
+      fd.append("size", size);
       fd.append("colors", colors);
       fd.append("Stock", Stock);
       fd.append("category", category);
-      Array.from(sizeContainer).forEach((img, index) => {
-        fd.append(`size`, img);
-      });
       Array.from(image).forEach((img) => {
         fd.append("image", img);
       });
 
       try {
         const { data } = await axios.post(
-          "https://mr-jitender-backend.vercel.app/api/v1/vender/product/new",
-          fd,
-          auth
+          "https://mr-jitender-backend.vercel.app/api/v1/admin/product/new",
+          fd
         );
         console.log(data);
         props.onHide();
