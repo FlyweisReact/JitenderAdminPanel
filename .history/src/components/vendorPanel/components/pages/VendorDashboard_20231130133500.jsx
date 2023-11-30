@@ -1,72 +1,70 @@
 /** @format */
 
 import React, { useEffect, useState } from "react";
-import HOC from "../layout/HOC";
+import HOC from "../../../vendorPanel/components/layout/HOC";
 import { MdDashboardCustomize, MdOutlineLibraryBooks } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { FaUserFriends } from "react-icons/fa";
 
-const Dashboard = () => {
-  const navigate = useNavigate();
-  const [product, setProduct] = useState(0);
-  const [category, setCategory] = useState(0);
+const VendorDashboard = () => {
+  const token = localStorage.getItem("token");
 
-  const fetchProduct = async () => {
+  const [user, setUser] = useState(0);
+
+  const fetchCount = async () => {
     try {
       const { data } = await axios.get(
-        "https://mr-jitender-backend.vercel.app/api/v1/products"
+        "https://mr-jitender-backend.vercel.app/api/v1/admin/users",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      setProduct(data.products?.length);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const fetchCat = async () => {
-    try {
-      const { data } = await axios.get(
-        "https://mr-jitender-backend.vercel.app/api/v1/catogory/getAllCategory"
-      );
-      setCategory(data.categories?.length);
-    } catch (e) {
-      console.log(e);
+      console.log(data)
+    } catch (err) {
+      console.log(err);
     }
   };
 
   useEffect(() => {
-    fetchProduct();
-    fetchCat();
-  }, []);
+    fetchC
+  })
 
   const card = [
     {
+      progress: "bg-blue-400",
+      title: "All Users",
+      number: "10",
+      icon: <FaUserFriends className="text-2xl text-[rgb(240,72,88)]" />,
+    },
+    {
       progress: "bg-green-400",
       title: "All Products",
-      number: product,
+      number: "100",
       icon: (
         <MdOutlineLibraryBooks className="text-2xl text-[rgb(240,72,88)]" />
       ),
-      link: "/feedback",
+    },
+    {
+      progress: "bg-yellow-400",
+      title: "All Orders",
+      number: "150",
+      icon: <MdDashboardCustomize className="text-2xl text-[rgb(240,72,88)]" />,
     },
     {
       progress: "bg-yellow-400",
       title: "All Categories",
-      number: category,
+      number: "150",
       icon: <MdDashboardCustomize className="text-2xl text-[rgb(240,72,88)]" />,
-      link: "/userkundli",
     },
   ];
   return (
     <>
       <section className="grid md:grid-cols-3 grid-cols-2 gap-y-6 gap-x-4">
         {/* Card */}
-        {card.map((card, index) => {
+        {card.map((card) => {
           return (
-            <div
-              className="px-5 py-8 bg-slate-200 hover:bg-green-200 space-y-2 shadow-xl flex flex-col  rounded-md"
-              key={`User${index}`}
-              onClick={() => navigate(card.link)}
-            >
+            <div className="px-5 py-8 bg-slate-200 space-y-2 shadow-xl flex flex-col  rounded-md">
               <div className="grid  justify-between grid-cols-4">
                 <div className="flex flex-col col-span-3 space-y-1">
                   <span className="tracking-widest text-gray-900">
@@ -89,4 +87,4 @@ const Dashboard = () => {
   );
 };
 
-export default HOC(Dashboard);
+export default HOC(VendorDashboard);

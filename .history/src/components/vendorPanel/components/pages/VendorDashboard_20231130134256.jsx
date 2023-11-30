@@ -1,14 +1,18 @@
 /** @format */
 
 import React, { useEffect, useState } from "react";
-import HOC from "../layout/HOC";
+import HOC from "../../../vendorPanel/components/layout/HOC";
 import { MdDashboardCustomize, MdOutlineLibraryBooks } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { FaUserFriends } from "react-icons/fa";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const Dashboard = () => {
+const VendorDashboard = () => {
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
+  const [user, setUser] = useState(0);
   const [product, setProduct] = useState(0);
+  const [order, setOrder] = useState(0);
   const [category, setCategory] = useState(0);
 
   const fetchProduct = async () => {
@@ -22,23 +26,64 @@ const Dashboard = () => {
     }
   };
 
+  const fetchOrder = async () => {
+    try {
+      const { data } = await axios.get(
+        "https://mr-jitender-backend.vercel.app/api/v1/admin/orders",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setOrder(data.data?.length);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const fetchCount = async () => {
+    try {
+      const { data } = await axios.get(
+        "https://mr-jitender-backend.vercel.app/api/v1/admin/users",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setUser(data?.total);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const fetchCat = async () => {
     try {
       const { data } = await axios.get(
         "https://mr-jitender-backend.vercel.app/api/v1/catogory/getAllCategory"
       );
-      setCategory(data.categories?.length);
+      console.log(data.categories);
     } catch (e) {
       console.log(e);
     }
   };
 
   useEffect(() => {
+    fetchCount();
     fetchProduct();
-    fetchCat();
+    fetchOrder();
+    fetchCat()
   }, []);
 
   const card = [
+    {
+      progress: "bg-blue-400",
+      title: "All Users",
+      number: user,
+      icon: <FaUserFriends className="text-2xl text-[rgb(240,72,88)]" />,
+      link: "/users",
+    },
     {
       progress: "bg-green-400",
       title: "All Products",
@@ -46,14 +91,20 @@ const Dashboard = () => {
       icon: (
         <MdOutlineLibraryBooks className="text-2xl text-[rgb(240,72,88)]" />
       ),
-      link: "/feedback",
+      link: "/product",
+    },
+    {
+      progress: "bg-yellow-400",
+      title: "All Orders",
+      number: order,
+      icon: <MdDashboardCustomize className="text-2xl text-[rgb(240,72,88)]" />,
+      link: "/order",
     },
     {
       progress: "bg-yellow-400",
       title: "All Categories",
-      number: category,
+      number: "150",
       icon: <MdDashboardCustomize className="text-2xl text-[rgb(240,72,88)]" />,
-      link: "/userkundli",
     },
   ];
   return (
@@ -63,7 +114,7 @@ const Dashboard = () => {
         {card.map((card, index) => {
           return (
             <div
-              className="px-5 py-8 bg-slate-200 hover:bg-green-200 space-y-2 shadow-xl flex flex-col  rounded-md"
+              className="px-5 py-8 bg-slate-200 space-y-2 shadow-xl flex flex-col  rounded-md cursor-pointer"
               key={`User${index}`}
               onClick={() => navigate(card.link)}
             >
@@ -89,4 +140,4 @@ const Dashboard = () => {
   );
 };
 
-export default HOC(Dashboard);
+export default HOC(VendorDashboard);

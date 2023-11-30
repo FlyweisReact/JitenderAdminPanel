@@ -60,13 +60,9 @@ const Dashboard = () => {
     <>
       <section className="grid md:grid-cols-3 grid-cols-2 gap-y-6 gap-x-4">
         {/* Card */}
-        {card.map((card, index) => {
+        {card.map((card) => {
           return (
-            <div
-              className="px-5 py-8 bg-slate-200 hover:bg-green-200 space-y-2 shadow-xl flex flex-col  rounded-md"
-              key={`User${index}`}
-              onClick={() => navigate(card.link)}
-            >
+            <div className="px-5 py-8 bg-slate-200 hover:bg-green-200 space-y-2 shadow-xl flex flex-col  rounded-md">
               <div className="grid  justify-between grid-cols-4">
                 <div className="flex flex-col col-span-3 space-y-1">
                   <span className="tracking-widest text-gray-900">
