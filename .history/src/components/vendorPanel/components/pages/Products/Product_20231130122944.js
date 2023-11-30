@@ -11,7 +11,6 @@ const Product = () => {
   const [data, setData] = useState([]);
   const [edit, setEdit] = useState(false);
   const [id, setId] = useState("");
-  const [editData, setEditData] = useState({});
   const token = localStorage.getItem("token");
 
   //Modal
@@ -46,12 +45,8 @@ const Product = () => {
     const [image, setImage] = useState("");
     const [sizeContainer, setSizeContainer] = useState([]);
 
-    const sizeFormat = {
-      size,
-    };
-
     const query_adder = () => {
-      setSizeContainer((prev) => [...prev, sizeFormat]);
+      setSizeContainer((prev) => [...prev, size]);
       setSize("");
     };
 
@@ -67,19 +62,6 @@ const Product = () => {
       },
     };
 
-    useEffect(() => {
-      if (edit === true) {
-        setStock(editData?.Stock);
-        setCategory(editData?.category?._id);
-        setColor(editData?.colors);
-        setDescription(editData?.description);
-        setName(editData?.name);
-        setPrice(editData?.price);
-        setRating(editData?.ratings);
-        setSizeContainer(editData?.size ? editData?.size : []);
-      }
-    }, [edit]);
-
     const fd = new FormData();
     fd.append("name", name);
     fd.append("description", description);
@@ -88,8 +70,8 @@ const Product = () => {
     fd.append("colors", colors);
     fd.append("Stock", Stock);
     fd.append("category", category);
-    Array.from(sizeContainer).forEach((img) => {
-      fd.append(`size`, img.size);
+    Array.from(sizeContainer).forEach((img, index) => {
+      fd.append(`size`, img);
     });
     Array.from(image).forEach((img) => {
       fd.append("image", img);
@@ -114,14 +96,14 @@ const Product = () => {
     const putHanlder = async (e) => {
       e.preventDefault();
       try {
-        const { data } = await axios.put(
-          `https://mr-jitender-backend.vercel.app/api/v1/admin/product/${id}`,
+        const { data } = await axios.post(
+          "https://mr-jitender-backend.vercel.app/api/v1/admin/product/63b91fd57bc451e3be9a13fa",
           fd,
           auth
         );
         props.onHide();
         fetchData();
-        alert("Product Edited ");
+        alert("Product Added");
       } catch (e) {
         console.log(e);
       }
@@ -130,17 +112,17 @@ const Product = () => {
     return (
       <Modal
         {...props}
-        size="xl"
+        size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {edit ? "Edit" : "Add"} Product
+            Add Product
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={edit ? putHanlder : postData}>
+          <Form onSubmit={postData}>
             <Form.Group className="mb-3">
               <Form.Label>Product Image</Form.Label>
               <Form.Control
@@ -153,16 +135,18 @@ const Product = () => {
               <Form.Label>Product Name</Form.Label>
               <Form.Control
                 type="text"
-                value={name}
                 onChange={(e) => setName(e.target.value)}
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Description</Form.Label>
-              <FloatingLabel className="mb-3">
+              <FloatingLabel
+                controlId="floatingTextarea"
+                label="Description"
+                className="mb-3"
+              >
                 <Form.Control
                   as="textarea"
-                  value={description}
+                  placeholder="Leave a comment here"
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </FloatingLabel>
@@ -172,7 +156,6 @@ const Product = () => {
               <Form.Control
                 type="number"
                 min={0}
-                value={price}
                 onChange={(e) => setPrice(e.target.value)}
               />
             </Form.Group>
@@ -199,10 +182,9 @@ const Product = () => {
                   paddingTop: "10px",
                   paddingBottom: "20px",
                 }}
-                key={`Size${index}`}
               >
                 <li style={{ listStyle: "disc" }} className="mt-1">
-                  {i.size}
+                  {i}
                 </li>
 
                 <li className="mt-3">
@@ -233,7 +215,6 @@ const Product = () => {
               <Form.Control
                 type="number"
                 min={0}
-                value={Stock}
                 onChange={(e) => setStock(e.target.value)}
               />
             </Form.Group>
@@ -241,16 +222,13 @@ const Product = () => {
               <Form.Label>Colors Available</Form.Label>
               <Form.Control
                 type="text"
-                value={colors}
                 onChange={(e) => setColor(e.target.value)}
               />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Ratings</Form.Label>
               <Form.Control
-                type="number"
-                min={0}
-                value={ratings}
+                type="text"
                 onChange={(e) => setRating(e.target.value)}
               />
             </Form.Group>
@@ -308,13 +286,7 @@ const Product = () => {
           <span className="tracking-widest text-slate-900 font-semibold uppercase ">
             All Products
           </span>
-          <Button
-            variant="outline-success"
-            onClick={() => {
-              setEdit(false);
-              setModalShow(true);
-            }}
-          >
+          <Button variant="outline-success" onClick={() => setModalShow(true)}>
             Add Product
           </Button>
         </div>
@@ -352,8 +324,8 @@ const Product = () => {
                   <td>
                     {" "}
                     <ul style={{ listStyle: "disc" }}>
-                      {i.size?.map((item, index) => (
-                        <li key={`Item${index}`}> {item.size} </li>
+                      {i.size?.map((item) => (
+                        <li key={`Item${item.size}`}> {item.size} </li>
                       ))}
                     </ul>{" "}
                   </td>
@@ -363,20 +335,13 @@ const Product = () => {
                   <td> {i.numOfReviews} </td>
                   <td> {i.colors} </td>
                   <td>
-                    <div className="icon_container">
+                    <div style={{ display: "flex", gap: "10px" }}>
                       <i
-                        className="fa-solid fa-trash"
+                        class="fa-solid fa-trash"
+                        style={{ color: "red", cursor: "pointer" }}
                         onClick={() => deleteData(i._id)}
                       ></i>
-                      <i
-                        className="fa-solid fa-pen-to-square"
-                        onClick={() => {
-                          setEditData(i);
-                          setEdit(true);
-                          setId(i._id);
-                          setModalShow(true);
-                        }}
-                      ></i>
+                      <i className="fa-solid fa-pen-to-square"></i>
                     </div>
                   </td>
                 </tr>

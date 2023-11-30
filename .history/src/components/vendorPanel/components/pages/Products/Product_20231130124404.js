@@ -89,7 +89,7 @@ const Product = () => {
     fd.append("Stock", Stock);
     fd.append("category", category);
     Array.from(sizeContainer).forEach((img) => {
-      fd.append(`size`, img.size);
+      fd.append(`size`, img);
     });
     Array.from(image).forEach((img) => {
       fd.append("image", img);

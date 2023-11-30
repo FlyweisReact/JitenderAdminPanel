@@ -89,7 +89,7 @@ const Product = () => {
     fd.append("Stock", Stock);
     fd.append("category", category);
     Array.from(sizeContainer).forEach((img) => {
-      fd.append(`size`, img.size);
+      fd.append(`size`, img);
     });
     Array.from(image).forEach((img) => {
       fd.append("image", img);
@@ -158,8 +158,8 @@ const Product = () => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Description</Form.Label>
-              <FloatingLabel className="mb-3">
+            <Form.Label>Description</Form.Label>
+              <FloatingLabel  className="mb-3">
                 <Form.Control
                   as="textarea"
                   value={description}
@@ -352,7 +352,7 @@ const Product = () => {
                   <td>
                     {" "}
                     <ul style={{ listStyle: "disc" }}>
-                      {i.size?.map((item, index) => (
+                      {i.size?.map((item , index) => (
                         <li key={`Item${index}`}> {item.size} </li>
                       ))}
                     </ul>{" "}
@@ -366,6 +366,7 @@ const Product = () => {
                     <div className="icon_container">
                       <i
                         className="fa-solid fa-trash"
+                        style={{ color: "red", cursor: "pointer" }}
                         onClick={() => deleteData(i._id)}
                       ></i>
                       <i

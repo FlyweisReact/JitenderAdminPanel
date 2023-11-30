@@ -89,7 +89,7 @@ const Product = () => {
     fd.append("Stock", Stock);
     fd.append("category", category);
     Array.from(sizeContainer).forEach((img) => {
-      fd.append(`size`, img.size);
+      fd.append(`size`, img);
     });
     Array.from(image).forEach((img) => {
       fd.append("image", img);
@@ -158,8 +158,8 @@ const Product = () => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Description</Form.Label>
-              <FloatingLabel className="mb-3">
+            <Form.Label>Description</Form.Label>
+              <FloatingLabel  className="mb-3">
                 <Form.Control
                   as="textarea"
                   value={description}
@@ -199,7 +199,6 @@ const Product = () => {
                   paddingTop: "10px",
                   paddingBottom: "20px",
                 }}
-                key={`Size${index}`}
               >
                 <li style={{ listStyle: "disc" }} className="mt-1">
                   {i.size}
@@ -352,8 +351,8 @@ const Product = () => {
                   <td>
                     {" "}
                     <ul style={{ listStyle: "disc" }}>
-                      {i.size?.map((item, index) => (
-                        <li key={`Item${index}`}> {item.size} </li>
+                      {i.size?.map((item) => (
+                        <li key={`Item${item.size}`}> {item.size} </li>
                       ))}
                     </ul>{" "}
                   </td>
@@ -365,7 +364,8 @@ const Product = () => {
                   <td>
                     <div className="icon_container">
                       <i
-                        className="fa-solid fa-trash"
+                        class="fa-solid fa-trash"
+                        style={{ color: "red", cursor: "pointer" }}
                         onClick={() => deleteData(i._id)}
                       ></i>
                       <i

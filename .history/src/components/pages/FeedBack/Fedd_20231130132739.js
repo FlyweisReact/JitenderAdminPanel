@@ -6,7 +6,7 @@ import { Button, FloatingLabel, Form, Modal } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const Product = () => {
+const Fedd = () => {
   const [modalShow, setModalShow] = React.useState(false);
   const [data, setData] = useState([]);
   const [edit, setEdit] = useState(false);
@@ -389,4 +389,6 @@ const Product = () => {
   );
 };
 
-export default HOC(Product);
+export default HOC(Fedd);
+
+//viewProduct

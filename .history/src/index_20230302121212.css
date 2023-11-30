@@ -6,13 +6,16 @@
 
 body {
   margin: 0;
-  font-family: Quicksand !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: Quicksand !important;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }
 
 /* Wcomponents */
@@ -55,21 +58,4 @@ code {
 
 .formInput {
   padding: 5px;
-}
-
-
-
-.icon_container{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
-}
-.fa-pen-to-square{
-  color: #ffa200;
-  cursor: pointer;
-}
-.fa-trash {
-  color: #bf1831;
-  cursor: pointer;
 }
